@@ -1,0 +1,37 @@
+Student Management Casestudy Day 4
+-------------------------------------------------------
+
+Topics Covered
+----------------------
+JDBC
+
+Plan
+------
+
+- Create PersistentAppEngine class which will implement/extends the AppEngine interface/class and use JDBC for interacting with the database:
+
+For ex: the code for register method might look like this in Java:
+
+    public void register(Student student) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		try {
+			Class.forName("org.apache.derby.jdbc.ClientDriver");
+			conn = DriverManager.getConnection("jdbc:derby://localhost:1527/training","user","pass");
+			
+			String sql = "insert into student values(?,?,?)";
+			stmt = conn.prepareStatement(sql);
+			
+			stmt.setInt(1, student.getId());
+			stmt.setString(2, student.getName());
+			stmt.setInt(3, student.getRollno());
+			stmt.executeUpdate();
+		}
+		catch(ClassNotFoundException | SQLException e) {
+			e.printStackTrace(); //instead throw user defined exception
+		}
+		finally {
+			try { stmt.close(); } catch(Exception e) { }
+			try { conn.close(); } catch(Exception e) { }
+		}
+    }
