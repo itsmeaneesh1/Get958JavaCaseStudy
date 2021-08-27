@@ -1,0 +1,697 @@
+27th Aug
+---------------
+Collections Continued...
+
+Set Interface 
+	Unordered Collection , Doesn't Allow Duplicates , Allows a single null value
+Implementations:
+		HashSet , TreeSet
+
+HashSet RAW ( Without Generics )
+-------------------------------------------
+
+public static void main(String[] args) 
+{
+	//RAW SET.	
+	Set setObj=new HashSet();
+	setObj.add(100);
+	setObj.add(200);
+	setObj.add("Nivi");
+	setObj.add(100);
+	setObj.add(null);
+	setObj.add(null);
+	setObj.add(10.45);
+	
+	//setObj.clear();
+	
+	System.out.println(setObj.contains("Nivi"));
+	System.out.println(setObj.isEmpty());
+	System.out.println(setObj);
+	System.out.println(setObj.size());
+	
+	for(Object obj:setObj)
+	{	
+		System.out.println(obj);
+	}
+		
+}
+Scenario without generics:
+
+WAP to accept a list of numbers and find the sum of elements on it?
+
+	List ar=new ArrayList();
+	ar.add(10);  ar.add(20);  ar.add(30);
+	ar.add("10");	// Allows to ADD
+	ar.add("A");	// Throws NumberFormat Eception
+	int sum=0;
+	
+	for(Object val : ar) // Need to use Objects
+	{
+		sum=sum+ Integer.parseInt(val.toString());	/// Need to do casting/coversion
+	}
+	
+	System.out.println("Sum is "+sum);	
+
+WITH GENERICS
+---------------------------
+	List<Integer> ar=new ArrayList<Integer>();
+	ar.add(10);  ar.add(20);  ar.add(30);
+	//ar.add("10");	//Will not Allow
+	//ar.add(10.9);  	//Will not Allow
+	int sum=0;
+	
+	for(int val : ar)	// Extact type
+	{
+		sum=sum+ val; // No need of casting/coversion
+	}
+	
+	System.out.println("Sum is "+sum);	
+
+Iteration Methods in Collection
+----------------------------------------------------------
+		For Loop ( Works with LIST)
+		Foreach ( Works with SET and LIST)
+		Iterator<Gen>	(  ( Works with SET and LIST)
+		ListIterator<Gen>	 ( Works with LIST ,allows FORWARD and BACKWARD iteration)
+
+List<Integer> ar=new ArrayList<Integer>();
+	ar.add(10); 
+	ar.add(20);
+	ar.add(30);
+	//for loop
+		for(int x=0;x<ar.size();x++)
+		{
+			System.out.println(ar.get(x));
+		}
+	 //foreach
+		for(int v : ar)
+		{
+			System.out.println(v);
+		}
+	//Iterator
+		Iterator<Integer> itr=ar.iterator();
+		while(itr.hasNext())
+		{
+			System.out.println(itr.next());
+		}
+	//List Iterator
+		ListIterator<Integer> itr2=ar.listIterator();
+		while(itr2.hasNext())
+			System.out.println(itr2.next());
+		
+		while(itr2.hasPrevious())
+			System.out.println(itr2.previous());
+
+Prob: WAP to accept a String as input , remove the duplicate characters in it , arrange the charcaters in ASC order and return the string.
+public class Practices {
+
+	
+	String removeDups(String input)
+	{
+		//Ur Logic
+		return null;
+	}
+
+	public static void main(String[] args) {
+		
+		System.out.println(new Practices().removeDups("cassandra")); //  acdnrs
+	//Test Casess:  apple -> aelp	,  banana - abn
+	}
+
+Prob:
+
+Prob: WAP to accept a String as input , remove the duplicate characters in it , arrange the charcaters in the same order and return the string.
+	cassandra	-  casndr
+	apple		-  aple
+	banana		-  ban
+
+Prob:  Collection with User Defined Objects ..
+
+public class Employee  implements Comparable<Employee>{
+	private int empno;
+	private String name;
+	private String city;
+
+	public int getEmpno() {
+		return empno;
+	}
+
+	public void setEmpno(int empno) {
+		this.empno = empno;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public Employee(int empno, String name, String city) {
+		super();
+		this.empno = empno;
+		this.name = name;
+		this.city = city;
+	}
+
+	public Employee() {
+		super();
+	}
+
+	@Override
+	public String toString() {
+		return "Employee [empno=" + empno + ", name=" + name + ", city=" + city + "]";
+	}
+
+	public boolean equals(Object o) {
+		Employee employee = (Employee) o;
+		/*if (employee.name.equals(this.name)) {
+			return true;
+		}*/
+		if(employee.empno==this.empno)
+			return true;
+		return false;
+	}
+	
+	 @Override 
+	 public int hashCode() 
+	 {
+	 System.out.println("In hashcode "+"value is :"+new Integer(this.empno).hashCode()); 
+	 int hash=new Integer(this.empno).hashCode(); 
+	  return hash;
+	  }
+
+	@Override
+	public int compareTo(Employee o) {
+	
+		return this.name.compareTo(o.name);
+	}
+
+
+}
+public class ManageEmployees 
+{
+	
+	List<Employee> obj=new ArrayList<Employee>();
+	
+	void addEmployees(Employee emp)
+	{
+		this.obj.add(emp);
+	}
+	List<Employee> getEmployees()
+	{
+		return this.obj;
+	}
+	void modifyEmp(Employee emp)
+	{
+		//Edit employee here
+	}
+	void deleteEmployee(int empno)
+	{
+		//Remove the employee
+		Employee ex;
+		for(Employee e1:obj)
+		{
+			
+		}
+	}
+	Employee searchEmployee(int empno)
+	{
+		//Find the employee and return
+		return null;
+	}
+public static void main(String[] args) 
+{
+    Scanner sc=new Scanner(System.in);
+    ManageEmployees mg=new ManageEmployees();
+    do
+    {
+    	System.out.println("1.Add Employee 2.Display Employees 3.Update 4.Delete 5.Search 6.Exit");
+    	System.out.print("Your Choice:");
+    	int choice=sc.nextInt();
+    	switch (choice) {
+		case 1:
+			System.out.println("Enter EmpNO,Name and City");
+			Employee e=new Employee();
+			e.setEmpno(sc.nextInt());
+			e.setName(sc.next());
+			e.setCity(sc.next());
+			mg.addEmployees(e);
+			System.out.println("Employee added");
+			break;
+		case 2:
+			System.out.println("Emp Details******");
+			for(Employee e1 : mg.getEmployees())
+			{
+				System.out.println(e1);
+			}
+			break;
+		case 3:
+			System.exit(0);
+			break;
+		default:
+			System.out.println("Invalid Choice..");
+			break;
+		}
+    	
+    }while(true);
+    
+   
+}
+}
+
+
+Maps:
+
+public class Quest 
+{
+		List<String> getPassedNames(Map<String,Integer> input)
+		{
+//WAP to get the marklist as map and return the persons names who passed.
+			// ie. Marks >=70.
+			List<String> names=new ArrayList<String>();
+			//WAy1
+			for(String k : input.keySet())
+			{
+				if(input.get(k)>=70)
+					names.add(k);
+			}
+			//Way2
+			for(Entry<String, Integer>  kv : input.entrySet())	
+			{
+					if(kv.getValue()>=70)
+						names.add(kv.getKey());
+			}
+			return names;
+		}
+		
+		public static void main(String[] args)
+		{
+			Map<String,Integer> names=new HashMap<String, Integer>();
+			names.put("Ragav",67);
+			names.put("Ravi",34);
+			names.put("Mrunal",77);
+			names.put("Rashi",87);
+			names.put("Dipin",65);
+			
+			System.out.println(new Quest().getPassedNames(names));
+		}
+}
+
+public class Quest2
+{
+	private Map<Character,Integer> charCount(String input)
+	{
+//WAP to accept string and return each charatcer's count as a Map (
+		//Sort the characters in ASC order 
+		//Expected : [a=1, e=1 ,l=1 ,p=2]
+		//Test Case :  malayalam -> [a=4,l=2 ,m=2,y=1]
+		//Solution 1
+		Map<Character,Integer> mp=new TreeMap<Character, Integer>();
+		for(char ch :input.toCharArray())
+		{
+			mp.put(ch, mp.getOrDefault(ch, 0)+1);
+		}
+		// Solution 2
+		for(char ch:input.toCharArray())
+		{
+			if(mp.containsKey(ch))
+				mp.put(ch,mp.get(ch)+1);
+			else
+				mp.put(ch,1);
+		}
+		
+		return mp;
+	}
+	public static void main(String[] args) 
+	{
+			String input="apple";
+			System.out.println(new Quest2().charCount(input));
+	}
+
+	
+}
+
+public class Quest3 {
+
+	private Map<String,Integer> getFeedBack(Map<String, Integer> english, Map<String, Integer> maths) 
+	{
+	
+//Accept the feedback ratings of teachers on eglish and maths .Return all teachers and their feedback
+//If the teacher takes 2 subjects, get the maximum feedback.
+		Map<String,Integer> fb=new TreeMap<String, Integer>();
+		fb.putAll(english);
+		for(String k:maths.keySet())
+		{	
+			if(fb.containsKey(k))
+				fb.put(k, Integer.max(fb.get(k), maths.get(k)));
+			else
+				fb.put(k, maths.get(k));
+		}
+		return fb;
+	}
+	
+	public static void main(String[] args) {
+		
+		Map<String,Integer> english=new HashMap<String, Integer>();
+		english.put("Sandy",90);
+		english.put("Hiran",87);
+		english.put("Puppy",76);
+		english.put("Vedha",89);
+		
+		Map<String,Integer> maths=new HashMap<String, Integer>();
+		maths.put("Azar", 90);
+		maths.put("Vedha",92);
+		maths.put("Kiran",78);
+		maths.put("Sandy",85);
+		
+		System.out.println(new Quest3().getFeedBack(english,maths));
+	//Expected :  [Azar=90 ,Hiran=87 ,Kiran=78 ,Puppy=76,Sandy=90 ,Vedha=92 ]	
+	}
+
+}
+
+Collection Sorting
+----------------------------------------
+		List<String> vals=new ArrayList<String>();
+			vals.add("Orange");
+			vals.add("Banana");
+			vals.add("Kiwi");
+			vals.add("Dragon");
+			vals.add("Grapes");
+			
+			System.out.println( vals );
+			Collections.sort(vals);
+			System.out.println( vals );
+			Collections.reverse(vals);
+			System.out.println(vals);
+			Collections.shuffle(vals);
+			System.out.println(vals);
+
+Comparable and Comparator
+---------------------------------------
+		When the collection is made up of User Defined Object ( Employees / Products ...)
+
+Comparable Demo:
+
+public class Product implements Comparable<Product>
+{
+		private int prodid;
+		private String name;
+		private int price;
+		
+		/*	@Override
+		public int compareTo(Product o) {
+			
+			//return this.prodid-o.prodid;
+			return o.prodid-this.prodid;
+		} */
+		
+		
+		@Override
+		public int compareTo(Product o) {
+			
+			return this.name.compareTo(o.name);
+		}
+		
+		
+		
+		public int getPrice() {
+			return price;
+		}
+		public void setPrice(int price) {
+			this.price = price;
+		}
+		public Product() {
+			super();
+			// TODO Auto-generated constructor stub
+		}
+		public Product(int prodid, String name, int price) {
+			super();
+			this.prodid = prodid;
+			this.name = name;
+			this.price = price;
+		}
+
+		@Override
+		public String toString() {
+			return "Product [prodid=" + prodid + ", name=" + name + ", price=" + price + "]";
+		}
+		public int getProdid() {
+			return prodid;
+		}
+		public void setProdid(int prodid) {
+			this.prodid = prodid;
+		}
+		public String getName() {
+			return name;
+		}
+		public void setName(String name) {
+			this.name = name;
+		}
+		
+}
+
+public class SortDemo {
+
+	public static void main(String[] args)
+	{
+			List<Product> prods=new ArrayList<Product>();
+			Product p1=new Product(300,"Colgate",90);
+			Product p2=new Product(100,"Gum",10);
+			Product p3=new Product(400,"Soap",50);
+			Product p4=new Product(200,"Oil",210);
+			
+			prods.add(p1);
+			prods.add(p2);
+			prods.add(p3);
+			prods.add(p4);
+			
+			Collections.sort(prods);
+			
+			for(Product p : prods)
+			{
+				System.out.println(p);
+			}
+			
+			
+			
+			
+	}
+
+}
+
+Comparator Demo:
+Product.java
+---------------------------
+public class Product 
+{
+		private int prodid;
+		private String name;
+		private int price;
+			
+		public int getPrice() {
+			return price;
+		}
+		public void setPrice(int price) {
+			this.price = price;
+		}
+		public Product() {
+			super();
+			// TODO Auto-generated constructor stub
+		}
+		public Product(int prodid, String name, int price) {
+			super();
+			this.prodid = prodid;
+			this.name = name;
+			this.price = price;
+		}
+
+		@Override
+		public String toString() {
+			return "Product [prodid=" + prodid + ", name=" + name + ", price=" + price + "]";
+		}
+		public int getProdid() {
+			return prodid;
+		}
+		public void setProdid(int prodid) {
+			this.prodid = prodid;
+		}
+		public String getName() {
+			return name;
+		}
+		public void setName(String name) {
+			this.name = name;
+		}
+		
+}
+ProdIDSorting.java
+----------------------------------------
+public class ProdIDSorting implements Comparator<Product>
+{
+
+	@Override
+	public int compare(Product arg0, Product arg1) {
+
+		return arg0.getProdid()-arg1.getProdid();
+	}
+
+}
+ NameSorting.java
+----------------------------
+public class NameSorting implements Comparator<Product>
+{
+
+	@Override
+	public int compare(Product o1, Product o2) {
+		// TODO Auto-generated method stub
+		return o1.getName().compareTo(o2.getName());
+	}
+
+}
+ PriceSorting
+---------------------------------
+public class PriceSorting implements Comparator<Product>
+{
+
+	@Override
+	public int compare(Product o1, Product o2) {
+		// TODO Auto-generated method stub
+		return o1.getPrice()-o2.getPrice();
+	}
+
+}
+SortDemo
+--------------------------
+public class SortDemo {
+
+	public static void main(String[] args)
+	{
+			List<Product> prods=new ArrayList<Product>();
+			Product p1=new Product(300,"Colgate",90);
+			Product p2=new Product(100,"Gum",10);
+			Product p3=new Product(400,"Soap",50);
+			Product p4=new Product(200,"Oil",210);
+			
+			prods.add(p1);
+			prods.add(p2);
+			prods.add(p3);
+			prods.add(p4);
+			
+		//	Collections.sort(prods,new ProdIDSorting());
+		//	Collections.sort(prods,new NameSorting());
+			Collections.sort(prods,new PriceSorting());
+			for(Product p : prods)
+			{
+				System.out.println(p);
+			}
+			
+			
+			
+			
+	}
+
+EQUALS and HASHCODE
+------------------------
+
+public class Employee  implements Comparable<Employee>{
+	private int empno;
+	private String name;
+	private String city;
+
+	public int getEmpno() {
+		return empno;
+	}
+
+	public void setEmpno(int empno) {
+		this.empno = empno;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public Employee(int empno, String name, String city) {
+		super();
+		this.empno = empno;
+		this.name = name;
+		this.city = city;
+	}
+
+	public Employee() {
+		super();
+	}
+
+	@Override
+	public String toString() {
+		return "Employee [empno=" + empno + ", name=" + name + ", city=" + city + "]";
+	}
+
+	public boolean equals(Object o) {
+		Employee employee = (Employee) o;
+		/*if (employee.name.equals(this.name)) {
+			return true;
+		}*/
+		if(employee.empno==this.empno)
+			return true;
+		return false;
+	}
+	
+	 @Override 
+	 public int hashCode() 
+	 {
+	 System.out.println("In hashcode "+"value is :"+new Integer(this.empno).hashCode()); 
+	 int hash=new Integer(this.empno).hashCode(); 
+	  return hash;
+	  }
+
+	@Override
+	public int compareTo(Employee o) {
+	
+		return this.name.compareTo(o.name);
+	}
+
+
+}
+
+public class Dummies
+{
+public static void main(String[] args) {
+	Set<Employee> s=new HashSet<Employee>();
+	
+	Employee e1=new Employee(100,"Ann", "Kollam");
+	Employee e2=new Employee(101,"Kan", "Kollam");
+	Employee e3=new Employee(102,"Man", "Kollam");
+	
+	s.add(e1);
+	s.add(e2);
+	s.add(e3);
+	for(Employee e :s)
+		System.out.println(e);
+}
+}
+
+
+
+
