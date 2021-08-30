@@ -1,0 +1,500 @@
+Lambda and Functional Interfaces
+----------------------------------
+interface RBI	//FUNCTIONAL INTERFACE / SAM ( Single Abstract Method )
+{
+	void setRepoRate();
+}
+/*class Bank implements RBI
+{
+
+	@Override
+	public void setRepoRate() {
+		
+		System.out.println("Setting REPO rate...");
+		
+	}
+	
+}*/
+public class LambdaDemo
+{
+public static void main(String[] args) 
+{
+	/*	RBI obj=new RBI() {
+			
+			@Override
+			public void setRepoRate() {
+				System.out.println("Setting REPO rate..");
+				
+			}
+		};*/
+	RBI obj;
+	obj=()->System.out.println("Setting REPO with Lambda");
+		obj.setRepoRate();
+}
+}
+
+Lambda With Args
+------
+interface SumCalc
+{
+	int findSum(int x,int y);
+}
+
+public class LambdaWithArgs
+{
+public static void main(String[] args)
+{
+		SumCalc calc;
+		calc=(x,y)->{
+			
+			return x+y;
+		};
+		System.out.println(calc.findSum(10, 20));
+}
+}
+
+Lambda With List
+-------------
+public class LanbdaWithList 
+{
+	public static void main(String[] args) {
+		
+		
+		List<Integer> ar=new ArrayList<Integer>();
+		ar.add(10);  ar.add(6); ar.add(20) ; ar.add(11);
+		
+		ar.forEach( n-> System.out.println(n));
+		
+		ar.forEach( n->{
+				if(n%5==0)
+					System.out.println(n);
+		});
+	}
+
+}
+
+
+Java Streams
+---------------------------
+
+Intermediate Operations  ( For pipelinine operations )
+	map() , filter() , sorted()
+
+Terminal Methods	( To get the result from a stream )
+	collect , forEach , reduce
+	
+public class StreamDemos {
+
+	public static void main(String[] args) 
+	{
+		/*List<Integer> list=new ArrayList<Integer>();
+		list=Arrays.asList(10,20,30,50,100,80,70);	
+		System.out.println(list);	
+		List<Integer> result=list.stream().map( x-> x*x).collect(Collectors.toList());
+		System.out.println(result); */
+	/*	
+		List<String> names=Arrays.asList("Inky","Pinky","Ponky");
+		System.out.println(names);
+		List<String> result= names.stream().filter( x-> x.startsWith("P")).collect(Collectors.toList());
+		System.out.println(result);
+		
+		List<String> fruits=Arrays.asList("WaterMelon","Apple","Pear","Banana");
+		System.out.println(fruits);
+		
+		List<String> frts=fruits.stream().sorted().collect(Collectors.toList());
+		System.out.println(frts); */
+		
+		List<Integer> list=new ArrayList<Integer>();
+		list=Arrays.asList(1,2,3,5,10,8,7);	
+		
+		list.stream().map( x-> x+5).forEach( x-> System.out.println(x));
+		
+		int sum=list.stream().reduce(0,(ans,i)->ans+i);
+		System.out.println(sum);
+		
+		int prod=list.stream().reduce(1,(ans,i)->ans*i);
+		System.out.println(prod);
+		
+	}
+
+}
+
+Date Enhancements in Java 8
+----------------------------------------------------
+LocalTime, LocalDate , TimeZones etc..
+
+public class DateWorks {
+
+	public static void main(String[] args) {
+		
+		/*
+		 * Date d=new Date(); System.out.println(d);
+		 */
+		
+		LocalDate dte=LocalDate.now();
+		System.out.println(dte);
+
+		LocalTime tme=LocalTime.now();
+		System.out.println(tme);
+		
+		LocalDate dob=LocalDate.of(1983,11, 14);
+		System.out.println(dob);
+		
+		LocalDate dob2=LocalDate.parse("2000-07-14");
+		System.out.println(dob2);
+		
+		DateTimeFormatter df=DateTimeFormatter.ofPattern("MM-dd-yyyy");
+		LocalDate dob3=LocalDate.parse("10-10-2001",df);
+		System.out.println(dob3);
+
+		//Internationalization 
+		ZonedDateTime zd=ZonedDateTime.now();
+		System.out.println(zd);
+		
+		for(String z : ZoneId.getAvailableZoneIds())
+		{
+			System.out.println(z);
+		}
+		
+		LocalTime lc=LocalTime.now(ZoneId.of("America/Guyana"));
+		System.out.println(lc);
+		
+	}
+
+}
+
+JDBC Demo App
+--------------------
+public class ConnectMe 
+{
+		public static void main(String[] args) 
+		{
+			Connection con = null;
+			try {
+				
+				Driver driver=new oracle.jdbc.driver.OracleDriver();
+				DriverManager.registerDriver(driver);
+				//Class.forName("oracle.jdbc.driver.OracleDriver"); //Loading Driver
+				con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","hr","hr");//Connecting..
+				Statement stmt=con.createStatement(); // ForSQL Queries.
+				ResultSet rs=stmt.executeQuery("select * from Employee"); //Executing Qry and storing result
+				while(rs.next())
+				{
+					System.out.println(rs.getString(1)+" "+rs.getString(2)+" "+rs.getString(3));
+				}
+				} 
+				catch (SQLException e) 
+				{
+					e.printStackTrace();
+				}
+				finally {
+					try {
+						con.close();
+					} catch (SQLException e) {
+	
+						e.printStackTrace();
+					}
+				}
+		}
+}
+Prepared Statement
+-----------------------
+public class SaveRecords 
+{
+public static void main(String[] args) {
+	Connection con = null;
+	try {
+		
+		Driver driver=new oracle.jdbc.driver.OracleDriver();
+		DriverManager.registerDriver(driver);
+		con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","hr","hr");
+		
+		Scanner sc=new Scanner(System.in);
+		System.out.println("Enter SID,Name and City");
+		int sid=sc.nextInt();
+		String name=sc.next();
+		String city=sc.next();
+		
+		PreparedStatement ps=con.prepareStatement("insert into StduentInfo values(?,?,?)");
+		ps.setInt(1,sid);
+		ps.setString(2,name);
+		ps.setString(3, city);
+		ps.executeUpdate();
+		System.out.println("Stduent Saved..");
+		
+	}
+	catch (SQLException e) {
+		System.out.println(e.getMessage());
+	}
+}
+}
+
+
+DAO Pattern
+
+	Data Access Object
+
+DAOInterface -> DAOImplementation ->POJO /Bean/VO/TO
+
+POJO
+------------
+public class Student 
+{
+	
+	private int sid;
+	private String name;
+	private String city;
+	public int getSid() {
+		return sid;
+	}
+	public void setSid(int sid) {
+		this.sid = sid;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public Student() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	@Override
+	public String toString() {
+		return "Student [sid=" + sid + ", name=" + name + ", city=" + city + "]";
+	}
+	public Student(int sid, String name, String city) {
+		super();
+		this.sid = sid;
+		this.name = name;
+		this.city = city;
+	}
+	
+	
+
+}
+
+DAO Interface
+--------------------------
+public interface StudentDAO 
+{
+		public boolean addStudent(Student student);
+		public List<Student> getStudent();
+		public boolean updateStudent(Student student);
+		public boolean deleteStudent(int sid);
+		public Student searchStudent(int sid);
+}
+
+DAO Impl
+-----------------
+public class StduentDAOImple implements StudentDAO
+{
+
+	Connection con;
+	PreparedStatement ps;
+	public StduentDAOImple()
+	{
+		try
+		{
+		Driver driver=new oracle.jdbc.driver.OracleDriver();
+		DriverManager.registerDriver(driver);
+		con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","hr","hr");//Connecting..
+		}
+		catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	@Override
+	public boolean addStudent(Student student) 
+	{
+		boolean res=false;
+		try
+		{
+		ps=con.prepareStatement("insert into StduentInfo values(?,?,?)");
+		ps.setInt(1,student.getSid());
+		ps.setString(2,student.getName());
+		ps.setString(3, student.getCity());
+		int count=ps.executeUpdate();
+		if(count>0)
+			res=true;
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return res;
+	}
+
+	@Override
+	public List<Student> getStudent() 
+	{
+		List<Student> students=new ArrayList<Student>();
+		try
+		{
+			ps=con.prepareStatement("select * from StduentInfo");
+			ResultSet rs=ps.executeQuery();
+			while(rs.next())
+			{
+				Student s=new Student(rs.getInt(1),rs.getString(2),rs.getString(3));
+				students.add(s);
+			};
+			
+		}
+		catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		return students;
+	}
+
+	@Override
+	public boolean updateStudent(Student student) {
+		boolean res=false;
+		try
+		{
+		ps=con.prepareStatement("update StduentInfo set sname=?,city=? where sid=?");	
+		ps.setString(1,student.getName());
+		ps.setString(2, student.getCity());
+		ps.setInt(3,student.getSid());
+		
+		int count=ps.executeUpdate();
+		if(count>0)
+			res=true;
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return res;
+	}
+
+	@Override
+	public boolean deleteStudent(int sid) {
+		boolean res=false;
+		try
+		{
+		ps=con.prepareStatement("delete from StduentInfo  where sid=?");	
+		ps.setInt(1,sid);
+		int count=ps.executeUpdate();
+		if(count>0)
+			res=true;
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return res;
+	}
+
+	@Override
+	public Student searchStudent(int sid) {
+		Student s = null;
+		try
+		{
+			ps=con.prepareStatement("select * from StduentInfo where sid=?");
+			ps.setInt(1, sid);
+			ResultSet rs=ps.executeQuery();
+			if(rs.next())
+			{
+			s=new Student(rs.getInt(1),rs.getString(2),rs.getString(3));	
+			}
+			else
+			{
+				s=new Student(0,null,null);
+			}
+		}
+		catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+		
+		return s;
+	}
+
+}
+
+
+AppMAin
+------------------
+public class AppMain {
+
+	public static void main(String[] args) {
+		
+	//	Student st=new Student(201, "Rakesh","Kollam");
+		
+		StudentDAO dao=new StduentDAOImple();
+	/*	boolean res=dao.addStudent(st);
+		if(res)
+			System.out.println("Student Saved");
+		else
+			System.out.println("Not Saved.."); */
+		
+	/*	List<Student> stds=dao.getStudent();
+		for(Student s1: stds)
+			System.out.println(s1); */
+		
+	/*	Student st=new Student(254, "Hiran","Mumbai");
+		boolean res=dao.updateStudent(st);
+		if(res)
+			System.out.println("Student Updated");
+		else
+			System.out.println("Invalid ID Specified"); */
+		
+	/*	boolean res=dao.deleteStudent(201);
+		if(res)
+			System.out.println("Student Deleted");
+		else
+			System.out.println("Invalid ID Specified"); */
+		Student s=dao.searchStudent(341);
+		if(s.getSid()!=0)
+				System.out.println(s);
+		else
+			System.out.println("Invalid ID..");
+		
+	}
+
+}
+
+CAll Procedure / Function
+---------------
+public class CallProc 
+{
+		public static void main(String[] args) 
+		{
+			Connection con = null;
+			try {
+				
+				Driver driver=new oracle.jdbc.driver.OracleDriver();
+				DriverManager.registerDriver(driver);
+				
+				con=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","hr","hr");//Connecting..
+				CallableStatement cs=con.prepareCall("{ call updateSal(?,?) }");
+				cs.setInt(1, 10000);
+				cs.setInt(2, 101);
+				cs.execute();
+				
+				} 
+				catch (SQLException e) 
+				{
+					e.printStackTrace();
+				}
+				finally {
+					try {
+						con.close();
+					} catch (SQLException e) {
+	
+						e.printStackTrace();
+					}
+				}
+		}
+}
+
+
+
+
+
+
+
