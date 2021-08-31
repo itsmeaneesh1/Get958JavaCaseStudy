@@ -1,0 +1,19 @@
+Quick Recap
+----
+
+DBMS
+	Data Modelling ,  ER Diagram,  Terms ( Relation ,Tuple.,Attribute , Cardinality ,Degree of Table ) , Key Concepts(Candidate ,Alternate 		,Primary , Foriegn , Composite ) , NULL , Normalization
+(Object Based/ Record Based )
+ORACLE
+	Query Flavours (DML ,DDL,DQL,DCL, TCL (ACID ) ) ,   Oracle Functions , Sorting ,DISTINCT , Grouping , JOINS ( Inner vs Outer , Equi vs Non Equi , Cross Join , Cartesion , Self Join , LEFT /RIGHT /FULL )  , SubQueries , >ALL/ANY (10,20 )   Views , WITH READ ONLY , WITh CHECK
+	PL/SQL , Anonymus vs Procedures vs Functions
+
+Java 
+	OOPs concepts , Abstraction , Encapsulation , Inheritance, Polymorphism , Access Specfiers , Staic vars and methods, this vs this(),
+	super vs super(), Overloading, Overriding , ABC vs Intefaces , Exceptions , Ex Handling  methods , thows vs throw ,  Casting  vs 	Conversion  , Wrappers and Uses , 
+	String Classes , Mutable and Immutable Features , ThreadSafe ??? , Tokenizers
+	 Collection Advantages , Types of collections , Ordered vs UnOrdered , Set vs List ,  Iteration Methods ( Iterator vs ListIterator )
+	Interface -> Implementation ,  Maps , Collection of Objects , Collection Sorting , Comparable vs Comparator ,
+	Object Comparison ,   Java 8 Features - > Functional Interfaces , Lambda , Streams ( Intermediate vs Terminal Methods ) ,Pipelining,
+	Default  and Static Methods 	in Interfaces . 
+	JDBC - Basics , Interfaces in JDBC , Statement vs PreparedStatement vs CallableStatement , DAO Pattern, Metadata.
