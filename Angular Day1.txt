@@ -1,0 +1,159 @@
+Angular Installation
+---------------------
+
+install node js
+	
+Check Node version
+
+	open cmd
+		node -v
+
+Install Angular
+	npm install -g @angular/cli
+
+To check angular version
+
+	ng --version   /   ng v     /   ng version
+
+	If ng command gives , not an internal or external command error
+	Set the user enviorment variables  
+		Enviornment Variables -> User Variables >path ->Edit -> Add the following paths
+			
+	 	C:\Users\<<User>>\AppData\Roaming\npm
+		C:\Users\<<User>>\AppData\Roaming\npm\node_modules\@angular\cli\bin
+
+New Angular Project
+		ng new <<Name of application>>
+				<<Enable Routing and CSS Stylesheet>>
+
+		ng new MyApp
+
+To Run the application
+		go to MyApp folder
+		cd MyApp
+			ng serve     	/   npm start
+
+To view the application
+		open browser (chrome.)
+					http://localhost:4200/
+
+	To run application in another post
+			ng serve --port 4202
+
+
+Creating components
+			ng generate component <<Name of Comp >>
+
+			ng generate component login
+				or
+			ng g c signup
+
+@Component({
+  selector: 'app-signup',
+  template: '<div> Enter Text <input type=text><button>ClickMe</button></div>',
+  styles: ['div{font-size: x-large;}']
+})
+
+or
+
+@Component({
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
+})
+
+Typescript
+-----------------
+
+export class LoginComponent implements OnInit {
+
+   txt1="Hello";
+   txt2:string="Hello2"; 
+   txt3:string;
+   txt4:string|undefined;
+   txt5:any;
+   num:number=100;
+   td:Date;
+
+   myArr=["Apple","Banana ","Grape"]; //Array
+   myArr2=new Array<string>(); //Array as Object Syntax
+   product={
+        prodid:100,
+        name:"Soap",
+        price:51
+   }; // Creating Data Object
+
+  constructor() {
+    this.txt3="Hello 3";
+    this.td=new Date();
+    this.myArr2.push("Lemon"); //Add Data to array
+    this.myArr2.push("Potato");
+    //pop() ....
+   }
+  ngOnInit(): void 
+  {
+      for(let k of this.myArr2 )
+      { 
+        console.log(k); 
+      }
+     
+    console.log(this.txt1+ " "+this.txt2+" "+this.txt3 +
+    ""+ this.txt4+ ""+this.txt5);
+    console.log(this.num +" "+this.td);
+  }
+
+  addtoArray(item:string) 
+  {
+    this.myArr2.push(item);
+  }
+  
+
+Data Binding ( Interpolation)
+-----
+
+Today {{ td }} <br>
+Texts {{txt1}} {{txt2}} {{txt3}} <br>
+<b>Fruits List</b>
+<ul>
+    <li *ngFor="let f of myArr">
+        {{f}}
+    </li>
+</ul> <br>
+Object Data : {{product.prodid}} {{product.name}} {{product.price}}
+
+Task:
+Create a new component named product .  
+Create an array of products with following values ( Electronics , Healthcare , Grooming , Groceries )
+Create a drop down in product component and add the above items inside into it.
+Also create a radio buttons list and display the items . Make sure only one can be selected.
+
+
+Solution:
+in TS
+-----
+products=['Electronics ', 'Healthcare' , 'Grooming' , 'Groceries']
+
+in HTML
+-----
+<select>
+    <option *ngFor="let p of products">
+        {{p}}
+    </option>
+</select>
+<div *ngFor="let p of products">
+        <input type="radio" name="prod">{{p}}
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
